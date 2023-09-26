@@ -20,7 +20,6 @@ $(document).ready(function () {
   });
 });
 
-
 $.ajax({
   url: "http://localhost:5001/api/v1/status/",
   type: "GET",
@@ -32,4 +31,3 @@ $.ajax({
     }
   }
 });
-
