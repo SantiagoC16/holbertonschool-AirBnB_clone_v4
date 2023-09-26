@@ -15,6 +15,7 @@ $(document).ready(function () {
     if (amenities.length > 30) {
       amenities = amenities.substring(0, 30) + '...';
     }
+    text += "&nbsp;"
     $('.amenities h4').text(amenities);
   });
 });
