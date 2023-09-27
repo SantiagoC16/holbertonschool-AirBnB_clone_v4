@@ -1,47 +1,49 @@
 $(document).ready(function () {
-    let amenitees = {};
+  let amenitees = {};
 
-    $('input[type="checkbox"]').change(function () {
-        let id = $(this).data('id');
-        let name = $(this).data('name');
+  $('input[type="checkbox"]').change(function () {
+    let id = $(this).data('id');
+    let name = $(this).data('name');
 
-        if ($(this).is(':checked')) {
-            amenitees[id] = name;
-        } else {
-            delete amenitees[id];
-        }
+    if ($(this).is(':checked')) {
+      amenitees[id] = name;
+    } else {
+      delete amenitees[id];
+    }
 
-        let amenities = Object.values(amenitees).join(', ');
-        if (amenities.length > 30) {
-            amenities = amenities.substring(0, 30) + '...';
-        }
-        $('.amenities h4').html(amenities);
-    });
+    let amenities = Object.values(amenitees).join(', ');
+    if (amenities.length > 30) {
+      amenities = amenities.substring(0, 30) + '...';
+    }
+    amenities += "&nbsp;"
+    $('.amenities h4').html(amenities);
+  });
+});
 
-    $.ajax({
-        url: "http://0.0.0.0:5001/api/v1/status/",
-        type: "GET",
-        success: function (data) {
-            if (data.status === 'OK') {
-                $('#api_status').addClass('available');
-            } else {
-                $('#api_status').removeClass('available');
-            }
-        },
-        error: function () {
-            $('#api_status').removeClass('available');
-        }
-    });
+$.ajax({
+  url: "http://0.0.0.0:5001/api/v1/status/",
+  type: "GET",
+  success: function (data) {
+    if (data.status === 'OK') {
+      $('#api_status').addClass('available');
+    } else {
+      $('#api_status').removeClass('available');
+    }
+  },
+  error: function () {
+    $('#api_status').removeClass('available');
+  }
+});
 
-    $.ajax({
-        url: "http://0.0.0.0:5001/api/v1/places_search/",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({}),
-        success: function (data) {
-            data.forEach(function (place) {
-                var article = document.createElement("article");
-                article.innerHTML = `
+$.ajax({
+  url: "http://0.0.0.0:5001/api/v1/places_search/",
+  type: "POST",
+  contentType: "application/json",
+  data: JSON.stringify({}),
+  success: function (data) {
+    data.forEach(function (place) {
+      var article = document.createElement("article");
+      article.innerHTML = `
             <div class="title_box">
               <h2>${place.name}</h2>
               <div class="price_by_night">$${place.price_by_night}</div>
@@ -53,11 +55,10 @@ $(document).ready(function () {
             </div>
             <div class="description">${place.description}</div>
           `;
-                $(".places").append(article);
-            });
-        },
-        error: function () {
-            console.error("Error loading places");
-        }
+      $(".places").append(article);
     });
+  },
+  error: function () {
+    console.error("Error loading places");
+  }
 });
