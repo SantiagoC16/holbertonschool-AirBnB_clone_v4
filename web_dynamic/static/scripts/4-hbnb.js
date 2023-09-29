@@ -1,9 +1,9 @@
 $(document).ready(function () {
-  let amenitees = {};
+  const amenitees = {};
 
   $('input[type="checkbox"]').change(function () {
-    let id = $(this).data('id');
-    let name = $(this).data('name');
+    const id = $(this).data('id');
+    const name = $(this).data('name');
 
     if ($(this).is(':checked')) {
       amenitees[id] = name;
@@ -15,12 +15,12 @@ $(document).ready(function () {
     if (amenities.length > 30) {
       amenities = amenities.substring(0, 30) + '...';
     }
-    amenities += "&nbsp;"
+    amenities += '&nbsp;';
     $('.amenities h4').html(amenities);
   });
   $.ajax({
-    url: "http://localhost:5001/api/v1/status/",
-    type: "GET",
+    url: 'http://localhost:5001/api/v1/status/',
+    type: 'GET',
     success: function (data) {
       if (data.status === 'OK') {
         $('#api_status').addClass('available');
@@ -34,9 +34,9 @@ $(document).ready(function () {
   });
 
   $.ajax({
-    url: "http://localhost:5001/api/v1/places_search/",
-    type: "POST",
-    contentType: "application/json",
+    url: 'http://localhost:5001/api/v1/places_search/',
+    type: 'POST',
+    contentType: 'application/json',
     data: JSON.stringify({}),
     success: function (data) {
       data.forEach(function (place) {
@@ -56,18 +56,19 @@ $(document).ready(function () {
           </div>
         </article>
         `;
-        $(".places").append(article);
+        $('.places').append(article);
       });
-    },
+    }
   });
-  $("#filter_button").click(function () {
+
+  $('#filter_button').click(function () {
     $.ajax({
       url: 'http://localhost:5001/api/v1/places_search',
       method: 'POST',
       data: JSON.stringify({ amenities: Object.keys(amenitees) }),
       contentType: 'application/json',
-      success: (data) => {
-        $(".places").empty();
+      success: function (data) {
+        $('.places').empty();
         data.forEach(function (place) {
           const article = `
           <article>
@@ -85,9 +86,9 @@ $(document).ready(function () {
             </div>
           </article>
           `;
-          $(".places").append(article);
+          $('.places').append(article);
         });
-      },
+      }
     });
   });
 });
