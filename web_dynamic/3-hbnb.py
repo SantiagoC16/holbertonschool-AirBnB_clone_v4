@@ -8,9 +8,11 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
 def close_db(error):
     storage.close()
+
 
 @app.route('/3-hbnb/', strict_slashes=False)
 def hbnb():
@@ -32,6 +34,7 @@ def hbnb():
                            amenities=amenities,
                            places=places,
                            cache_id=uuid4())
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
